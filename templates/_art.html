@@ -1,0 +1,102 @@
+{# Simple original illustrations for the home buttons. Replace with real photos any time. #}
+{% macro city_art(name, fit=false) %}
+{% set n = name|lower %}
+<svg viewBox="0 0 200 250" preserveAspectRatio="{{ 'xMidYMid meet' if fit else 'xMidYMid slice' }}" class="h-full w-full" role="img" aria-label="{{ name }}" xmlns="http://www.w3.org/2000/svg">
+{% if n == 'guides' %}
+  <rect width="200" height="250" fill="#8fe3d3"/><circle cx="156" cy="52" r="20" fill="#fff4bd"/>
+  <rect y="204" width="200" height="46" fill="#e9d7b0"/>
+  <path d="M60 206Q60 150 100 150Q140 150 140 206Z" fill="#0b0f0c"/>
+  <circle cx="100" cy="122" r="22" fill="#f2c9a0"/><path d="M78 118Q100 88 122 118Q112 108 100 108Q88 108 78 118Z" fill="#0b0f0c"/>
+  <path d="M138 176L156 70" stroke="#0b0f0c" stroke-width="4"/><path d="M156 70L190 82L154 96Z" fill="#1fc45e"/>
+{% elif n == 'stays' %}
+  <rect width="200" height="250" fill="#f7d57d"/><circle cx="46" cy="54" r="18" fill="#fff7d6"/>
+  <rect y="206" width="200" height="44" fill="#d9b25a"/>
+  <rect x="44" y="96" width="112" height="112" fill="#f4e8c8"/><path d="M36 96L100 56L164 96Z" fill="#1ea7b8"/>
+  <rect x="86" y="150" width="28" height="58" rx="14" fill="#1ea7b8"/>
+  <rect x="58" y="112" width="22" height="26" rx="11" fill="#0e7a89"/><rect x="120" y="112" width="22" height="26" rx="11" fill="#0e7a89"/>
+{% elif n == 'transport' %}
+  <rect width="200" height="250" fill="#a9d1ff"/><circle cx="150" cy="56" r="18" fill="#fff"/>
+  <rect y="206" width="200" height="44" fill="#6d8fb8"/><path d="M0 214H200" stroke="#33485f" stroke-width="4"/>
+  <path d="M34 190V110Q34 82 70 82H130Q166 82 166 110V190Z" fill="#fbfaf5"/>
+  <path d="M34 150H166V190H34Z" fill="#1fc45e"/>
+  <rect x="50" y="102" width="40" height="30" rx="6" fill="#33485f"/><rect x="110" y="102" width="40" height="30" rx="6" fill="#33485f"/>
+  <circle cx="62" cy="170" r="6" fill="#fff4bd"/><circle cx="138" cy="170" r="6" fill="#fff4bd"/>
+{% elif n == 'feed' %}
+  <rect width="200" height="250" fill="#ffd2b8"/><circle cx="46" cy="52" r="18" fill="#fff0d6"/>
+  <rect x="34" y="96" width="132" height="94" rx="14" fill="#0b0f0c"/><rect x="62" y="84" width="40" height="18" rx="6" fill="#0b0f0c"/>
+  <circle cx="100" cy="143" r="32" fill="#fbfaf5"/><circle cx="100" cy="143" r="22" fill="#1ea7b8"/><circle cx="92" cy="135" r="6" fill="#bff0e6"/>
+  <circle cx="146" cy="112" r="5" fill="#1fc45e"/>
+{% elif n == 'samarkand' %}
+  <rect width="200" height="250" fill="#8fe3d3"/><circle cx="158" cy="52" r="20" fill="#fff4bd"/><rect y="196" width="200" height="54" fill="#e9d7b0"/>
+  <rect x="58" y="132" width="84" height="66" fill="#f4e8c8"/><path d="M58 132Q58 66 100 56Q142 66 142 132Z" fill="#1ea7b8"/>
+  <path d="M100 58Q82 94 80 132M100 58Q118 94 120 132M100 58V132" stroke="#0e7a89" stroke-width="3" fill="none"/>
+  <path d="M100 56V36" stroke="#c9961a" stroke-width="4"/><circle cx="100" cy="33" r="4" fill="#c9961a"/><rect x="86" y="152" width="28" height="46" rx="14" fill="#1ea7b8"/>
+{% elif n == 'bukhara' %}
+  <rect width="200" height="250" fill="#f6b98a"/><circle cx="48" cy="56" r="18" fill="#ffe9b8"/><rect y="204" width="200" height="46" fill="#d98f55"/>
+  <path d="M84 206L92 82H108L116 206Z" fill="#c98446"/><path d="M88 150H112M86 178H114M90 118H110" stroke="#f2cf9a" stroke-width="5"/>
+  <rect x="80" y="58" width="40" height="26" rx="3" fill="#b06a2e"/><path d="M84 58Q100 30 116 58Z" fill="#1ea7b8"/>
+  <rect x="26" y="150" width="40" height="56" fill="#e7a56b"/><path d="M26 150Q46 126 66 150Z" fill="#f2cf9a"/><rect x="134" y="162" width="40" height="44" fill="#e7a56b"/><path d="M134 162Q154 140 174 162Z" fill="#f2cf9a"/>
+{% elif n == 'khiva' %}
+  <rect width="200" height="250" fill="#f7d57d"/><circle cx="150" cy="50" r="20" fill="#fff7d6"/><rect y="206" width="200" height="44" fill="#d9b25a"/><path d="M0 160H200V208H0Z" fill="#c8924a"/>
+  <path d="M0 160V148H16V160M32 160V148H48V160M64 160V148H80V160M120 160V148H136V160M152 160V148H168V160M184 160V148H200V160" stroke="#c8924a" stroke-width="12" fill="none"/>
+  <rect x="78" y="84" width="44" height="124" fill="#1ea7b8"/><path d="M78 104H122M78 124H122M78 144H122M78 164H122M78 184H122" stroke="#f7f1d0" stroke-width="5"/><rect x="74" y="78" width="52" height="10" fill="#0e7a89"/>
+{% elif n == 'tashkent' %}
+  <rect width="200" height="250" fill="#a9d1ff"/><circle cx="46" cy="54" r="16" fill="#fff"/><rect y="206" width="200" height="44" fill="#6d8fb8"/>
+  <path d="M96 210L99 70H101L104 210Z" fill="#33485f"/><ellipse cx="100" cy="112" rx="18" ry="9" fill="#33485f"/><ellipse cx="100" cy="108" rx="12" ry="5" fill="#8fb1d6"/><path d="M100 70V30" stroke="#33485f" stroke-width="3"/>
+  <rect x="16" y="160" width="34" height="48" fill="#8aa7c9"/><rect x="56" y="140" width="28" height="68" fill="#7b99bd"/><rect x="120" y="150" width="32" height="58" fill="#7b99bd"/><rect x="158" y="170" width="28" height="38" fill="#8aa7c9"/>
+{% elif n == 'taxi' %}
+  <rect width="200" height="250" fill="#fff0a8"/>
+  <rect x="14" y="110" width="30" height="96" fill="#f3d97a"/><rect x="52" y="86" width="26" height="120" fill="#ecd06a"/><rect x="150" y="100" width="36" height="106" fill="#f3d97a"/>
+  <rect y="196" width="200" height="54" fill="#3b3f4a"/><path d="M0 224H200" stroke="#fff" stroke-dasharray="14 10" stroke-width="3"/>
+  <path d="M26 190V156Q26 142 42 138L64 112Q70 104 84 104H128Q142 104 148 112L170 138Q176 142 176 156V190Z" fill="#ffc400"/>
+  <path d="M72 116H98V138H58Z" fill="#cfeaff"/><path d="M106 116H128L144 138H106Z" fill="#cfeaff"/>
+  <rect x="86" y="92" width="32" height="13" rx="3" fill="#0b0f0c"/><text x="102" y="102" font-size="8" text-anchor="middle" fill="#ffc400" font-family="Arial,sans-serif" font-weight="700">TAXI</text>
+  <path d="M26 163H176" stroke="#0b0f0c" stroke-width="6" stroke-dasharray="6 6"/>
+  <circle cx="60" cy="192" r="15" fill="#0b0f0c"/><circle cx="60" cy="192" r="6" fill="#bbb"/><circle cx="142" cy="192" r="15" fill="#0b0f0c"/><circle cx="142" cy="192" r="6" fill="#bbb"/>
+{% elif n == 'plane' %}
+  <rect width="200" height="250" fill="#8ec5ff"/><ellipse cx="48" cy="58" rx="28" ry="10" fill="#fff"/><ellipse cx="156" cy="194" rx="32" ry="11" fill="#fff"/><ellipse cx="150" cy="70" rx="20" ry="7" fill="#e9f4ff"/>
+  <g transform="rotate(-18 100 125)"><ellipse cx="100" cy="125" rx="64" ry="13" fill="#fbfaf5"/><path d="M96 125L70 80H88L124 125Z" fill="#dfe7f1"/><path d="M96 125L70 170H88L124 125Z" fill="#dfe7f1"/><path d="M152 122L168 98H176L168 126Z" fill="#1fc45e"/><path d="M60 122H120" stroke="#33485f" stroke-width="3" stroke-dasharray="5 4" opacity=".6"/></g>
+{% elif n == 'experience' %}
+  <rect width="200" height="250" fill="#ffd9a8"/><circle cx="150" cy="52" r="18" fill="#fff4bd"/><rect y="206" width="200" height="44" fill="#e0b070"/>
+  <rect x="38" y="86" width="22" height="120" fill="#e9c88a"/><rect x="140" y="86" width="22" height="120" fill="#e9c88a"/><circle cx="49" cy="80" r="10" fill="#1ea7b8"/><circle cx="151" cy="80" r="10" fill="#1ea7b8"/>
+  <rect x="60" y="112" width="80" height="94" fill="#f3dfb0"/><path d="M76 206V150Q76 124 100 124Q124 124 124 150V206Z" fill="#1ea7b8"/><path d="M68 112H132" stroke="#c9961a" stroke-width="4"/>
+  <path d="M86 144Q100 134 114 144" stroke="#f7f1d0" stroke-width="3" fill="none"/>
+{% elif n == 'trip' %}
+  <rect width="200" height="250" fill="#c9f2d8"/><circle cx="152" cy="50" r="18" fill="#fff4bd"/>
+  <path d="M0 192L60 100L100 160L140 90L200 192Z" fill="#6fcf97"/><path d="M60 100L72 120L60 116L48 120Z" fill="#fff"/><path d="M140 90L152 110L140 106L128 110Z" fill="#fff"/>
+  <rect y="190" width="200" height="60" fill="#3aa56b"/><path d="M26 232Q76 204 108 218T176 206" stroke="#fff" stroke-width="4" stroke-dasharray="8 8" fill="none"/>
+  <path d="M100 178C86 158 80 150 80 138a20 20 0 0 1 40 0C120 150 114 158 100 178Z" fill="#ff5a4f"/><circle cx="100" cy="138" r="7" fill="#fff"/>
+{% else %}
+  <rect width="200" height="250" fill="#c9f2d8"/>
+  <path d="M100 40L124 100L188 100L136 140L156 204L100 166L44 204L64 140L12 100L76 100Z" fill="#1fc45e" opacity=".85"/>
+  <circle cx="100" cy="120" r="26" fill="#fbfaf5"/><circle cx="100" cy="120" r="12" fill="#1fc45e"/>
+{% endif %}
+</svg>
+{% endmacro %}
+
+{% macro item_art(item, fit=false) %}
+{% set ty = item.item_type %}{% set ti = item.title|lower %}
+{% set loc = item.location|lower %}
+{% set city = 'samarkand' if 'samarkand' in loc else ('bukhara' if 'bukhara' in loc else ('khiva' if 'khiva' in loc else ('tashkent' if 'tashkent' in loc else ''))) %}
+{% set key = city if (ty in ('hotel', 'experience', 'trip') and city) else ('stays' if ty == 'hotel' else ('plane' if ty == 'transport' and ('flight' in ti or 'airways' in ti) else ty)) %}
+{% set bgs = {'samarkand': '#8fe3d3', 'bukhara': '#f6b98a', 'khiva': '#f7d57d', 'tashkent': '#a9d1ff', 'stays': '#f7d57d', 'taxi': '#fff0a8', 'transport': '#a9d1ff', 'plane': '#8ec5ff', 'experience': '#ffd9a8', 'trip': '#c9f2d8'} %}
+{# Every listing gets its own slight colour shift (and a mirrored picture on every second one), so cards of one category do not look identical. #}
+<div class="h-full w-full" style="background:{{ bgs.get(key, '#c9f2d8') }};filter:hue-rotate({{ ((item.id * 37) % 37) - 18 }}deg)"><div class="h-full w-full" {% if item.id % 2 == 0 and key != 'taxi' %}style="transform:scaleX(-1)"{% endif %}>{{ city_art(key, fit) }}</div></div>
+{% endmacro %}
+
+{# Shows the uploaded photo, or an illustration while the listing still has a placeholder or no photo. #}
+{% macro item_cover(item, cls='', fit=false) %}
+{% if item.image_url and 'picsum.photos' not in item.image_url %}
+<img src="{{ item.image_url }}" alt="{{ item.title }}" loading="lazy" class="h-full w-full object-cover {{ cls }}">
+{% else %}
+<div class="h-full w-full {{ cls }}">{{ item_art(item, fit) }}</div>
+{% endif %}
+{% endmacro %}
+
+{% macro avatar(g, size='h-20 w-20', text='text-2xl') %}
+{% if g.profile_image_url and 'picsum.photos' not in g.profile_image_url %}
+<img src="{{ g.profile_image_url }}" alt="{{ g.full_name }}" loading="lazy" class="{{ size }} rounded-full object-cover bg-sand">
+{% else %}
+<span class="{{ size }} {{ text }} inline-flex shrink-0 items-center justify-center rounded-full bg-brand-soft font-display font-extrabold text-brand-strong" role="img" aria-label="{{ g.full_name }}">{{ g.full_name[:1] }}</span>
+{% endif %}
+{% endmacro %}

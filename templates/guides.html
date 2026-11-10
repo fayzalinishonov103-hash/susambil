@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% from "_art.html" import avatar %}
+{% block title %}Local guides | Susambil{% endblock %}
+{% block content %}
+<section class="mx-auto max-w-7xl px-4 sm:px-6 pt-12">
+  <h1 class="font-display text-4xl sm:text-5xl font-bold">{{ t('guides_title') }}</h1>
+  <p class="mt-3 text-ink/70 max-w-xl">Every guide here has had their certificate checked by our team.</p>
+  <a href="/become-guide" class="btn-brand mt-5">{{ t('become_guide') }}</a>
+
+  {% if guides %}
+  <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    {% for g in guides %}
+    <article id="g{{ g.id }}" class="panel p-5 flex flex-col scroll-mt-24">
+      <div class="flex items-center gap-4">
+        {{ avatar(g) }}
+        <div>
+          <h2 class="font-display text-xl font-semibold">{{ g.full_name }}</h2>
+          <p class="text-sm text-ink/70">{{ g.city }}</p>
+          {% if g.badge %}<span class="mt-1 inline-block rounded-full bg-brand text-ink text-xs font-semibold px-2.5 py-0.5">{{ g.badge }}</span>{% endif %}
+        </div>
+      </div>
+      <p class="mt-4 text-sm text-ink">{{ g.bio }}</p>
+      <dl class="mt-4 grid grid-cols-3 gap-2 text-center text-sm">
+        <div class="rounded-lg bg-paper p-2"><dt class="text-ink/60">Rating</dt><dd class="font-semibold text-brand-strong">&#9733; {{ '%.1f'|format(g.rating) }}</dd></div>
+        <div class="rounded-lg bg-paper p-2"><dt class="text-ink/60">Tours</dt><dd class="font-semibold">{{ g.completed_tours }}</dd></div>
+        <div class="rounded-lg bg-paper p-2"><dt class="text-ink/60">Points</dt><dd class="font-semibold">{{ g.points }}</dd></div>
+      </dl>
+      <p class="mt-3 text-sm text-ink/70">Speaks {{ g.languages }}. {{ g.experience_years }} years of experience.</p>
+      <p class="mt-3"><span class="font-display text-2xl font-bold text-brand-strong">{{ money(g.price_per_day) }}</span><span class="text-ink/60"> {{ t('per_day') }}</span></p>
+
+      <details class="mt-4">
+        <summary class="btn-brand cursor-pointer list-none w-full">Book {{ g.full_name.split()[0] }}</summary>
+        <form method="post" action="/guides/{{ g.id }}/book" class="mt-3 space-y-3">
+          <input class="field" name="customer_name" required minlength="2" maxlength="120" placeholder="{{ t('your_name') }}" data-tg-name>
+          <input class="field" name="phone" type="tel" required placeholder="+998 90 123 45 67" pattern="[+0-9][0-9 ()\-]{6,19}">
+          <input class="field" name="date" type="date" required min="{{ today }}">
+          <div class="hp" aria-hidden="true"><input type="text" name="bot_check" tabindex="-1" autocomplete="off"></div>
+          <button class="btn-brand w-full" type="submit">{{ t('send_request') }}</button>
+        </form>
+      </details>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="mt-8 panel p-10 text-center">
+    <p class="font-display text-xl">No verified guides yet.</p>
+    <p class="mt-2 text-ink/70">Guides appear here after our team checks their certificate.</p>
+  </div>
+  {% endif %}
+</section>
+
+
+{% endblock %}

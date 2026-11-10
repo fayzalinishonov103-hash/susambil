@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% from "_art.html" import item_cover %}
+{% block title %}{{ item.title }} | Susambil{% endblock %}
+{% block meta_description %}{{ item.description[:155] }}{% endblock %}
+{% block og_title %}{{ item.title }}{% endblock %}
+{% block og_image %}<meta property="og:image" content="{{ item.image_url if item.image_url.startswith('http') else site_url ~ item.image_url }}">{% endblock %}
+{% block content %}
+<div class="mx-auto max-w-7xl px-4 sm:px-6 pt-6">
+  <a href="/trips?tab={{ item.item_type }}" class="text-sm text-ink/70 hover:text-brand-strong">&larr; {{ t('tab_' ~ item.item_type) }}</a>
+
+  <div class="relative mt-4 h-72 sm:h-[26rem] overflow-hidden rounded-3xl bg-sand">
+    {{ item_cover(item, '', true) }}
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 p-6 sm:p-10">
+      <p class="text-brand font-semibold">{{ t('tab_' ~ item.item_type) }}, {{ item.location }}</p>
+      <h1 class="font-display text-3xl sm:text-5xl font-extrabold mt-1 text-white">{{ item.title }}</h1>
+    </div>
+  </div>
+
+  <div class="mt-10 grid gap-10 lg:grid-cols-3">
+    <div class="lg:col-span-2">
+      <div class="flex flex-wrap gap-3 text-sm">
+        <span class="panel px-4 py-2">{{ item.location }}</span>
+        {% if item.duration %}<span class="panel px-4 py-2">{{ item.duration }}</span>{% endif %}
+        {% if avg_rating %}<span class="panel px-4 py-2 text-brand-strong">&#9733; {{ avg_rating }} ({{ reviews|length }} review{{ '' if reviews|length == 1 else 's' }})</span>{% endif %}
+      </div>
+      <h2 class="font-display text-2xl font-semibold mt-8">{{ t('about') }}</h2>
+      <p class="mt-3 text-ink leading-relaxed max-w-prose whitespace-pre-line">{{ item.description }}</p>
+
+      <section id="reviews" class="mt-14 scroll-mt-24">
+        <h2 class="font-display text-2xl font-semibold">{{ t('reviews') }}</h2>
+
+        {% if reviews %}
+        <ul class="mt-5 space-y-4">
+          {% for r in reviews %}
+          <li class="panel p-5">
+            <div class="flex items-center justify-between gap-3">
+              <p class="font-semibold">{{ r.author_name }}</p>
+              <p class="text-brand-strong" aria-label="{{ r.rating }} out of 5 stars">{{ '★' * r.rating }}<span class="text-line">{{ '★' * (5 - r.rating) }}</span></p>
+            </div>
+            <p class="mt-2 text-ink whitespace-pre-line">{{ r.comment }}</p>
+          </li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <p class="mt-4 text-ink/70">No reviews yet. If you've been, tell others what it was like.</p>
+        {% endif %}
+
+        <form method="post" action="/item/{{ item.id }}/review" class="panel p-5 mt-6 space-y-4">
+          <h3 class="font-display text-lg font-semibold">{{ t('write_review') }}</h3>
+          <input class="field" name="author_name" required maxlength="120" placeholder="{{ t('your_name') }}" data-tg-name>
+          <fieldset>
+            <legend class="text-sm text-ink/70 mb-2">Your rating</legend>
+            <div class="flex gap-2">
+              {% for n in range(1, 6) %}
+              <label class="cursor-pointer">
+                <input class="peer sr-only" type="radio" name="rating" value="{{ n }}" required {% if n == 5 %}checked{% endif %}>
+                <span class="flex h-10 w-12 items-center justify-center rounded-lg border border-line peer-checked:bg-brand peer-checked:text-ink peer-checked:border-brand peer-focus-visible:ring-2 peer-focus-visible:ring-ink">{{ n }} &#9733;</span>
+              </label>
+              {% endfor %}
+            </div>
+          </fieldset>
+          <textarea class="field" name="comment" rows="3" required maxlength="1500" placeholder="What stood out?"></textarea>
+          <div class="hp" aria-hidden="true"><input type="text" name="bot_check" tabindex="-1" autocomplete="off"></div>
+          <button class="btn-brand" type="submit">{{ t('post_review') }}</button>
+        </form>
+      </section>
+    </div>
+
+    <aside class="lg:col-span-1">
+      <form id="booking" method="post" action="/book/{{ item.id }}" class="panel p-6 space-y-4 lg:sticky lg:top-24 scroll-mt-24">
+        <p><span class="font-display text-3xl font-bold text-brand-strong">{{ money(item.price) }}</span>
+          {% if item.duration %}<span class="text-ink/60"> / {{ item.duration|lower }}</span>{% endif %}</p>
+        <div>
+          <label for="b-name" class="text-sm text-ink/70">{{ t('your_name') }}</label>
+          <input id="b-name" class="field mt-1" name="customer_name" required minlength="2" maxlength="120" data-tg-name>
+        </div>
+        <div>
+          <label for="b-phone" class="text-sm text-ink/70">{{ t('phone') }}</label>
+          <input id="b-phone" class="field mt-1" name="phone" type="tel" required placeholder="+998 90 123 45 67" pattern="[+0-9][0-9 ()\-]{6,19}">
+        </div>
+        <div>
+          <label for="b-date" class="text-sm text-ink/70">{{ t('date') }}</label>
+          <input id="b-date" class="field mt-1" name="date" type="date" required min="{{ today }}">
+        </div>
+        <div class="hp" aria-hidden="true"><input type="text" name="bot_check" tabindex="-1" autocomplete="off"></div>
+        <button class="btn-brand w-full" type="submit">{{ t('book_now') }}</button>
+        <p class="text-xs text-ink/60">No payment now. We call you to confirm availability.</p>
+      </form>
+    </aside>
+  </div>
+</div>
+
+  <div class="h-20 lg:hidden"></div>
+  <div class="lg:hidden fixed inset-x-0 bottom-0 z-30 border-t border-line bg-white/95 backdrop-blur px-4 py-3 flex items-center justify-between gap-3">
+    <span class="font-display text-xl font-extrabold">{{ money(item.price) }}</span>
+    <a href="#booking" class="btn-brand !py-2.5">{{ t('book_now') }}</a>
+  </div>
+{% endblock %}

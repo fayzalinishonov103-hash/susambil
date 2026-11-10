@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% block title %}{{ t('feed_title') }} | Susambil{% endblock %}
+{% block content %}
+<section class="mx-auto max-w-7xl px-4 sm:px-6 pt-8">
+  <div class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="font-display text-3xl sm:text-4xl font-extrabold">{{ t('feed_title') }}</h1>
+      <p class="mt-1 text-ink/70">{{ t('feed_sub') }}</p>
+    </div>
+  </div>
+
+  <details class="panel mt-5 p-5">
+    <summary class="cursor-pointer font-semibold text-brand-strong">{{ t('share_photo') }}</summary>
+    <form method="post" action="/upload-post" enctype="multipart/form-data" class="mt-4 grid gap-3 sm:grid-cols-2">
+      <input class="field" name="title" required maxlength="200" placeholder="Title">
+      <input class="field" name="location" required maxlength="120" placeholder="Location">
+      <input class="field" name="author_name" required maxlength="120" placeholder="{{ t('your_name') }}" data-tg-name>
+      <input class="field" name="hashtags" maxlength="300" placeholder="Hashtags: #samarkand #silkroad">
+      <label class="sm:col-span-2 text-sm text-ink/70">Photo (jpg, png or webp, up to 10 MB)
+        <input class="field mt-1" type="file" name="image_file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" required>
+      </label>
+      <div class="hp" aria-hidden="true"><label>Leave this empty<input type="text" name="bot_check" tabindex="-1" autocomplete="off"></label></div>
+      <div class="sm:col-span-2"><button class="btn-brand" type="submit">{{ t('post_photo') }}</button></div>
+    </form>
+  </details>
+
+  {% if posts %}
+  <div class="mt-6 flex gap-5 overflow-x-auto snap-x snap-mandatory pb-4 no-scrollbar">
+    {% for post in posts %}
+    <article class="snap-start shrink-0 w-[19rem] sm:w-80 panel overflow-hidden flex flex-col" data-post="{{ post.id }}">
+      <div class="relative aspect-square bg-sand">
+        <img src="{{ post.image_url }}" alt="{{ post.title }}" loading="lazy" class="h-full w-full object-cover">
+        <span class="absolute top-3 left-3 rounded-full bg-white/90 text-brand-strong text-xs font-semibold px-3 py-1">{{ post.location }}</span>
+      </div>
+      <div class="p-4 flex flex-col gap-2 flex-1">
+        <p class="font-display text-lg font-semibold leading-snug">{{ post.title }}</p>
+        <p class="text-sm text-ink/60">by {{ post.author_name }}</p>
+        {% if post.hashtags %}<p class="text-sm text-brand-strong break-words">{{ post.hashtags }}</p>{% endif %}
+
+        <div class="flex items-center gap-4 pt-1">
+          <button type="button" class="like-btn inline-flex items-center gap-1.5 text-ink hover:text-brand-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-strong rounded" data-id="{{ post.id }}" aria-label="Like this photo">
+            <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-4.6-9.3-9A5.4 5.4 0 0 1 12 6.2 5.4 5.4 0 0 1 21.3 12C19 16.4 12 21 12 21z"/></svg>
+            <span class="like-count font-semibold">{{ post.like_count }}</span>
+          </button>
+          <button type="button" class="comment-toggle text-sm text-ink hover:text-brand-strong focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-strong rounded" aria-expanded="false">
+            {{ t('comments') }} (<span class="comment-count">{{ post.comments|length }}</span>)
+          </button>
+        </div>
+
+        <div class="comment-box hidden mt-2 border-t border-line pt-3">
+          <ul class="comment-list space-y-2 max-h-40 overflow-y-auto text-sm">
+            {% for c in post.comments %}
+            <li><span class="font-semibold text-brand-strong">{{ c.author_name }}</span> <span class="text-ink">{{ c.comment }}</span></li>
+            {% endfor %}
+          </ul>
+          <form class="comment-form mt-3 space-y-2" data-id="{{ post.id }}">
+            <input class="field" name="author_name" required maxlength="120" placeholder="{{ t('your_name') }}" data-tg-name>
+            <input class="field" name="comment" required maxlength="500" placeholder="Write a comment">
+            <div class="hp" aria-hidden="true"><input type="text" name="bot_check" tabindex="-1" autocomplete="off"></div>
+            <p class="comment-error text-sm text-red-700 hidden" role="alert"></p>
+            <button class="btn-brand w-full" type="submit">Post comment</button>
+          </form>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="mt-6 panel p-10 text-center"><p class="font-display text-xl">No photos yet.</p><p class="mt-2 text-ink/70">Be the first to share one.</p></div>
+  {% endif %}
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  var LIKED_KEY = 'susambil_liked_posts';
+  function readLiked() { try { return JSON.parse(localStorage.getItem(LIKED_KEY) || '[]'); } catch (e) { return []; } }
+  function writeLiked(list) { try { localStorage.setItem(LIKED_KEY, JSON.stringify(list)); } catch (e) {} }
+
+  var liked = readLiked();
+  document.querySelectorAll('.like-btn').forEach(function (btn) {
+    if (liked.indexOf(btn.dataset.id) !== -1) markLiked(btn);
+  });
+
+  function markLiked(btn) {
+    btn.classList.add('text-brand-strong');
+    btn.querySelector('svg').setAttribute('fill', 'currentColor');
+    btn.setAttribute('aria-pressed', 'true');
+    btn.disabled = true;
+  }
+
+  document.addEventListener('click', function (e) {
+    var like = e.target.closest('.like-btn');
+    if (like && !like.disabled) {
+      like.disabled = true;
+      fetch('/post/' + like.dataset.id + '/like', { method: 'POST' })
+        .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+        .then(function (data) {
+          like.querySelector('.like-count').textContent = data.like_count;
+          var list = readLiked(); list.push(like.dataset.id); writeLiked(list);
+          markLiked(like);
+        })
+        .catch(function () { like.disabled = false; });
+      return;
+    }
+    var toggle = e.target.closest('.comment-toggle');
+    if (toggle) {
+      var box = toggle.closest('article').querySelector('.comment-box');
+      var open = box.classList.toggle('hidden') === false;
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+  });
+
+  document.addEventListener('submit', function (e) {
+    var form = e.target.closest('.comment-form');
+    if (!form) return;
+    e.preventDefault();
+    var errorEl = form.querySelector('.comment-error');
+    var submit = form.querySelector('button[type=submit]');
+    errorEl.classList.add('hidden');
+    submit.disabled = true;
+    fetch('/post/' + form.dataset.id + '/comment', { method: 'POST', body: new FormData(form) })
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+      .then(function (res) {
+        if (!res.ok) throw new Error(res.data.error || 'Could not post the comment.');
+        var article = form.closest('article');
+        var li = document.createElement('li');
+        var who = document.createElement('span');
+        who.className = 'font-semibold text-brand-strong';
+        who.textContent = res.data.author_name;
+        var what = document.createElement('span');
+        what.className = 'text-ink';
+        what.textContent = ' ' + res.data.comment;
+        li.appendChild(who); li.appendChild(what);
+        var list = article.querySelector('.comment-list');
+        list.appendChild(li); list.scrollTop = list.scrollHeight;
+        article.querySelector('.comment-count').textContent = res.data.comment_count;
+        form.elements['comment'].value = '';
+      })
+      .catch(function (err) { errorEl.textContent = err.message; errorEl.classList.remove('hidden'); })
+      .finally(function () { submit.disabled = false; });
+  });
+})();
+</script>
+{% endblock %}

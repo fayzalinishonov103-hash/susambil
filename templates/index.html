@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% from "_art.html" import city_art %}
+{% block content %}
+{% set tabs = [('all',t('tab_all')),('hotel',t('tab_hotel')),('taxi',t('tab_taxi')),('transport',t('tab_transport')),('experience',t('tab_experience')),('trip',t('tab_trip'))] %}
+<section class="relative overflow-hidden" style="background:radial-gradient(70% 55% at 50% 0%,#e4f8ea 0%,rgba(251,250,245,0) 70%),radial-gradient(40% 40% at 92% 28%,#fff0dc 0%,rgba(251,250,245,0) 70%)">
+  <div class="mx-auto max-w-5xl px-4 sm:px-6 pt-7 sm:pt-9 pb-8 text-center">
+    <h1 class="font-display font-extrabold uppercase leading-[1.02] tracking-tight text-3xl sm:text-6xl lg:text-7xl">
+      <span class="block">{{ t('h1_pre') }}</span><span class="block text-brand-strong">{{ t('h1_accent') }}</span>
+    </h1>
+
+    <form method="get" action="/trips" class="mt-5 sm:mt-6 mx-auto max-w-2xl rounded-3xl bg-white border border-line shadow-lg p-2 grid gap-2 sm:grid-cols-[1.4fr_1fr_auto] text-start">
+      <label class="block px-4 pt-2">
+        <span class="text-xs font-medium text-ink/60">{{ t('where') }}</span>
+        <input name="location" maxlength="80" placeholder="{{ t('search_ph') }}" class="block w-full bg-transparent py-1 font-medium placeholder:text-ink/40 focus:outline-none">
+      </label>
+      <label class="block px-4 pt-2 sm:border-s border-line">
+        <span class="text-xs font-medium text-ink/60">{{ t('kind') }}</span>
+        <select name="tab" class="block w-full bg-transparent py-1 font-medium focus:outline-none">
+          {% for key, label in tabs %}<option value="{{ key }}">{{ label }}</option>{% endfor %}
+        </select>
+      </label>
+      <button class="btn-brand sm:px-8" type="submit">{{ t('search_btn') }}</button>
+    </form>
+
+    {% set cards = [
+      {'href': '/guides', 'art': 'guides', 'title': t('nav_guides'), 'sub': counts.guides ~ ' ' ~ t('n_guides'), 'rot': -6, 'top': 30},
+      {'href': '/trips', 'art': 'stays', 'title': t('trips_title'), 'sub': counts.trips ~ ' ' ~ t('n_trips'), 'rot': -2, 'top': 44},
+      {'href': '/trips?tab=taxi', 'art': 'taxi', 'title': t('tab_taxi'), 'sub': counts.taxi ~ ' ' ~ t('n_trips'), 'rot': 2, 'top': 44},
+      {'href': '/feed', 'art': 'feed', 'title': t('feed_title'), 'sub': counts.photos ~ ' ' ~ t('n_photos'), 'rot': 6, 'top': 30}] %}
+    <div class="relative mx-auto mt-6 max-w-3xl sm:h-[22rem]">
+      <svg class="absolute inset-x-0 top-0 hidden h-24 w-full sm:block" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><path d="M0 8Q500 88 1000 8" fill="none" stroke="#0b0f0c" stroke-width="1.5" vector-effect="non-scaling-stroke"/></svg>
+      <ul class="relative grid grid-cols-2 gap-3 sm:absolute sm:inset-x-0 sm:top-0 sm:flex sm:items-start sm:justify-center sm:gap-4">
+        {% for c in cards %}
+        <li style="--r:{{ c.rot }}deg;--t:{{ c.top }}px" class="sm:[transform:rotate(var(--r))] sm:[margin-top:var(--t)]">
+          <a href="{{ c.href }}" class="relative block rounded-2xl border border-line bg-white p-2 pb-3 text-start shadow-xl transition-transform hover:-translate-y-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-ink sm:w-44 lg:w-48">
+            <span class="absolute -top-3 left-1/2 hidden h-5 w-3 -translate-x-1/2 rounded-sm border border-ink/20 bg-brand sm:block" aria-hidden="true"></span>
+            <div class="aspect-[4/3] overflow-hidden rounded-xl bg-sand sm:aspect-[4/5]">{{ city_art(c.art) }}</div>
+            <p class="mt-2 px-1 text-sm font-semibold leading-tight">{{ c.title }}</p>
+            <p class="px-1 text-xs text-ink/60">{{ c.sub }}</p>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

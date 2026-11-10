@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}" dir="{{ 'rtl' if rtl else 'ltr' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Susambil: stays, trips and local guides in Uzbekistan{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}{{ t('hero_sub') }}{% endblock %}">
+  <meta name="theme-color" content="#fbfaf5">
+  <meta property="og:site_name" content="Susambil">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{% block og_title %}Susambil{% endblock %}">
+  <meta property="og:description" content="{{ self.meta_description() }}">
+  {% block og_image %}{% endblock %}
+  {% if canonical %}<link rel="canonical" href="{{ canonical }}"><meta property="og:url" content="{{ canonical }}">{% endif %}
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  {% block head %}{% endblock %}
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&family=Noto+Sans:wght@400;600&family=Noto+Sans+Arabic:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/app.css?v=4">
+</head>
+<body class="bg-paper text-ink font-body antialiased min-h-screen flex flex-col">
+  <header class="sticky top-0 z-40 bg-paper/90 backdrop-blur border-b border-line">
+    <nav class="mx-auto max-w-7xl flex items-center justify-between gap-3 px-4 sm:px-6 h-16">
+      <a href="/" class="font-display text-2xl font-extrabold tracking-tight text-ink">Susambil<span class="text-brand">.</span></a>
+      <div class="flex items-center gap-3 sm:gap-6 text-sm sm:text-base">
+        <a href="/trips" class="hidden sm:inline hover:text-brand-strong">{{ t('nav_trips') }}</a>
+        <a href="/feed" class="hidden sm:inline hover:text-brand-strong">{{ t('nav_feed') }}</a>
+        <a href="/guides" class="hidden sm:inline hover:text-brand-strong">{{ t('nav_guides') }}</a>
+
+        <div class="relative" id="pref-root">
+          <button type="button" id="pref-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="pref-panel"
+                  class="inline-flex items-center gap-2 rounded-full border border-line px-3 sm:px-4 py-2 text-sm hover:border-brand focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-strong">
+            <span aria-hidden="true">{{ lang_info.flag }}</span>
+            <span>{{ cur }}<span class="hidden sm:inline"> · {{ lang_info.name }}</span></span>
+          </button>
+          <div id="pref-panel" role="dialog" aria-label="{{ t('language') }} / {{ t('currency') }}" hidden
+               class="absolute end-0 mt-2 w-[min(22rem,92vw)] rounded-2xl bg-white border border-line shadow-2xl p-4 z-50">
+            <label for="pref-search" class="text-sm text-ink/70">{{ t('language') }}</label>
+            <input id="pref-search" type="search" class="field mt-1" placeholder="{{ t('find_language') }}" autocomplete="off">
+            <ul id="pref-langs" class="mt-3 grid grid-cols-2 gap-2 max-h-56 overflow-y-auto pe-1">
+              {% for code, info in languages %}
+              <li data-name="{{ (info.name ~ ' ' ~ info.en ~ ' ' ~ code)|lower }}">
+                <button type="button" data-lang="{{ code }}" data-cur="{{ info.cur }}" lang="{{ code }}"
+                        class="pref-lang w-full text-start rounded-lg border px-3 py-2 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-strong {{ 'bg-brand text-ink border-brand' if code == lang else 'border-line hover:border-brand' }}">
+                  {{ info.flag }} {{ info.name }}
+                </button>
+              </li>
+              {% endfor %}
+            </ul>
+            <p class="mt-4 text-sm text-ink/70">{{ t('currency') }}</p>
+            <div class="mt-2 flex flex-wrap gap-2">
+              {% for c in currencies %}
+              <button type="button" data-cur="{{ c }}"
+                      class="pref-cur rounded-full border px-3 py-1 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-strong {{ 'bg-brand text-ink border-brand' if c == cur else 'border-line hover:border-brand' }}">{{ c }}</button>
+              {% endfor %}
+            </div>
+            <button type="button" id="pref-apply" class="btn-brand w-full mt-4">{{ t('apply') }}</button>
+          </div>
+        </div>
+        <a href="/become-guide" class="btn-brand !py-2 !px-4 text-sm hidden md:inline-flex">{{ t('become_guide') }}</a>
+      </div>
+    </nav>
+    <nav class="sm:hidden border-t border-line" aria-label="Menu">
+      <div class="flex gap-6 overflow-x-auto no-scrollbar px-4 py-2 text-sm font-medium">
+        <a href="/trips">{{ t('nav_trips') }}</a><a href="/guides">{{ t('nav_guides') }}</a><a href="/feed">{{ t('nav_feed') }}</a><a href="/become-guide">{{ t('become_guide') }}</a>
+      </div>
+    </nav>
+  </header>
+
+  {% if request.query_params.get('msg') %}
+  <div role="status" class="bg-brand text-ink">
+    <p class="mx-auto max-w-7xl px-4 sm:px-6 py-3 font-medium">{{ request.query_params.get('msg') }}</p>
+  </div>
+  {% endif %}
+
+  <main class="flex-1">{% block content %}{% endblock %}</main>
+
+  <footer class="mt-16 border-t border-line bg-white">
+    <div class="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+      <div class="flex items-center gap-4">
+        <p class="font-display text-xl font-extrabold">Susambil<span class="text-brand">.</span></p>
+        <p class="hidden max-w-sm text-sm text-ink/60 md:block">{{ t('footer_text') }}</p>
+      </div>
+      <nav class="flex flex-wrap gap-x-5 gap-y-2 text-sm font-medium" aria-label="Footer">
+        <a class="hover:text-brand-strong" href="/trips">{{ t('nav_trips') }}</a>
+        <a class="hover:text-brand-strong" href="/guides">{{ t('nav_guides') }}</a>
+        <a class="hover:text-brand-strong" href="/feed">{{ t('nav_feed') }}</a>
+        <a class="hover:text-brand-strong" href="/become-guide">{{ t('become_guide') }}</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    // Telegram Mini App: fill the visitor's name into any field marked data-tg-name.
+    (function () {
+      var tg = window.Telegram && window.Telegram.WebApp;
+      if (!tg) return;
+      try { tg.ready(); tg.expand(); } catch (e) {}
+      var user = tg.initDataUnsafe && tg.initDataUnsafe.user;
+      if (!user) return;
+      var name = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username || '';
+      if (!name) return;
+      document.querySelectorAll('[data-tg-name]').forEach(function (el) { if (!el.value) el.value = name; });
+    })();
+  </script>
+  <script>
+  // Language and currency picker
+  (function () {
+    var root = document.getElementById('pref-root');
+    var btn = document.getElementById('pref-btn');
+    var panel = document.getElementById('pref-panel');
+    var sel = { lang: '{{ lang }}', cur: '{{ cur }}' };
+    var curTouched = false;
+    var ON = ['bg-brand', 'text-ink', 'border-brand'], OFF = ['border-line', 'hover:border-brand'];
+
+    function open(o) { panel.hidden = !o; btn.setAttribute('aria-expanded', o ? 'true' : 'false'); if (o) document.getElementById('pref-search').focus(); }
+    function paint() {
+      document.querySelectorAll('.pref-lang').forEach(function (b) { mark(b, b.dataset.lang === sel.lang); });
+      document.querySelectorAll('.pref-cur').forEach(function (b) { mark(b, b.dataset.cur === sel.cur); });
+    }
+    function mark(el, on) {
+      ON.forEach(function (c) { el.classList.toggle(c, on); });
+      OFF.forEach(function (c) { el.classList.toggle(c, !on); });
+    }
+    btn.addEventListener('click', function () { open(panel.hidden); });
+    document.addEventListener('click', function (e) { if (!root.contains(e.target)) open(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !panel.hidden) { open(false); btn.focus(); } });
+    panel.addEventListener('click', function (e) {
+      var l = e.target.closest('.pref-lang'), c = e.target.closest('.pref-cur');
+      if (l) { sel.lang = l.dataset.lang; if (!curTouched) sel.cur = l.dataset.cur; paint(); }
+      if (c) { sel.cur = c.dataset.cur; curTouched = true; paint(); }
+    });
+    document.getElementById('pref-search').addEventListener('input', function (e) {
+      var q = e.target.value.trim().toLowerCase();
+      document.querySelectorAll('#pref-langs li').forEach(function (li) { li.hidden = q && li.dataset.name.indexOf(q) === -1; });
+    });
+    document.getElementById('pref-apply').addEventListener('click', function () {
+      location.href = '/set-preferences?lang=' + encodeURIComponent(sel.lang) + '&cur=' + encodeURIComponent(sel.cur) +
+        '&next=' + encodeURIComponent(location.pathname + location.search);
+    });
+
+    // First visit inside Telegram: use the language of the Telegram account.
+    var tg = window.Telegram && window.Telegram.WebApp;
+    var user = tg && tg.initDataUnsafe && tg.initDataUnsafe.user;
+    var supported = {{ lang_codes|tojson }};
+    if (user && user.language_code && {{ 'false' if lang_chosen else 'true' }}) {
+      var code = user.language_code.slice(0, 2).toLowerCase();
+      var key = 'susambil_tg_lang_done';
+      var done = false; try { done = sessionStorage.getItem(key); } catch (e) {}
+      if (!done && supported.indexOf(code) !== -1) {
+        try { sessionStorage.setItem(key, '1'); } catch (e) {}
+        if (code !== '{{ lang }}') location.replace('/set-preferences?lang=' + code + '&next=' + encodeURIComponent(location.pathname + location.search));
+      }
+    }
+  })();
+</script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

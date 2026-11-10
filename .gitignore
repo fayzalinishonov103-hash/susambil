@@ -1,0 +1,31 @@
+# Virtual muhit (Virtual environment)
+.venv/
+venv/
+ENV/
+env/
+
+# Python kesh fayllari
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Maxfiy va muhit o'zgaruvchilari (Secrets)
+.env
+.env.*
+
+# Mahalliy ma'lumotlar bazasi
+*.db
+*.sqlite3
+susambil.db
+
+# Foydalanuvchi yuklagan fayllar va rasmlar
+static/uploads/*
+!static/uploads/.gitkeep
+
+# IDE va sistema fayllari (PyCharm, VSCode, OS)
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

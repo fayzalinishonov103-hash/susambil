@@ -1,0 +1,9 @@
+{
+  "name": "susambil",
+  "private": true,
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i static/input.css -o static/css/app.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i static/input.css -o static/css/app.css --watch"
+  },
+  "devDependencies": { "tailwindcss": "3.4.17" }
+}

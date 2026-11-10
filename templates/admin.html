@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+{% block title %}Admin | Susambil{% endblock %}
+{% macro item_fields(item=None) %}
+  <input class="field" name="title" required maxlength="200" placeholder="Title" value="{{ item.title if item else '' }}">
+  <select class="field" name="item_type" required>
+    {% for t_ in item_types %}<option value="{{ t_ }}" {{ 'selected' if item and item.item_type == t_ }}>{{ t_|capitalize }}</option>{% endfor %}
+  </select>
+  <input class="field" name="location" required maxlength="120" placeholder="Location" value="{{ item.location if item else '' }}">
+  <input class="field" name="price" type="number" min="1" step="0.01" required placeholder="Price (USD)" value="{{ item.price if item else '' }}">
+  <input class="field" name="duration" maxlength="80" placeholder="Duration (optional)" value="{{ item.duration if item and item.duration else '' }}">
+  <input class="field" name="image_url" placeholder="Image link (or upload a file below)" value="{{ item.image_url if item else '' }}">
+  <textarea class="field sm:col-span-2" name="description" rows="4" required minlength="10" placeholder="Description">{{ item.description if item else '' }}</textarea>
+  <label class="sm:col-span-2 text-sm text-ink/70">Upload a new image (optional, jpg, png or webp, up to 10 MB)
+    <input class="field mt-1" type="file" name="image_file" accept=".jpg,.jpeg,.png,.webp">
+  </label>
+{% endmacro %}
+{% block content %}
+{% if not authed %}
+<section class="mx-auto max-w-md px-4 pt-20">
+  <form method="post" action="/admin" class="panel p-8 space-y-4">
+    <h1 class="font-display text-3xl font-bold">Admin sign in</h1>
+    <input type="hidden" name="action" value="login">
+    <label for="pw" class="text-sm text-ink/70">Password</label>
+    <input id="pw" class="field" type="password" name="password" required autofocus autocomplete="current-password">
+    {% if error %}<p class="text-sm text-red-700" role="alert">{{ error }}</p>{% endif %}
+    <button class="btn-brand w-full" type="submit">Sign in</button>
+  </form>
+</section>
+{% else %}
+{% set badge = {'pending': 'bg-amber-100 text-amber-800', 'confirmed': 'bg-sky-100 text-sky-800', 'completed': 'bg-emerald-100 text-emerald-800', 'cancelled': 'bg-red-100 text-red-800'} %}
+<section class="mx-auto max-w-7xl px-4 sm:px-6 pt-10">
+  <div class="flex items-center justify-between gap-4">
+    <h1 class="font-display text-3xl sm:text-4xl font-bold">Dashboard</h1>
+    <form method="post" action="/admin"><input type="hidden" name="action" value="logout"><button class="btn-ghost" type="submit">Sign out</button></form>
+  </div>
+
+  <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="panel p-6">
+      <p class="text-sm text-ink/70">Revenue</p>
+      <p class="mt-1 font-display text-4xl font-bold text-brand-strong">${{ '{:,.0f}'.format(revenue) }}</p>
+      <p class="mt-1 text-xs text-ink/60">Confirmed and completed bookings only.</p>
+    </div>
+    <div class="panel p-6">
+      <p class="text-sm text-ink/70">Total bookings</p>
+      <p class="mt-1 font-display text-4xl font-bold text-brand-strong">{{ total_bookings }}</p>
+      <p class="mt-1 text-xs text-ink/60">{{ item_bookings }} listings, {{ guide_bookings }} guides</p>
+    </div>
+    <div class="panel p-6">
+      <p class="text-sm text-ink/70">Waiting for confirmation</p>
+      <p class="mt-1 font-display text-4xl font-bold text-brand-strong">{{ pending_bookings }}</p>
+      <p class="mt-1 text-xs text-ink/60">Call the customer, then confirm.</p>
+    </div>
+    <div class="panel p-6">
+      <p class="text-sm text-ink/70">Pending guides</p>
+      <p class="mt-1 font-display text-4xl font-bold text-brand-strong">{{ pending_guides|length }}</p>
+      <p class="mt-1 text-xs text-ink/60">{{ items|length }} listings published</p>
+    </div>
+  </div>
+
+  <h2 class="font-display text-2xl font-semibold mt-12">Guide applications</h2>
+  {% if pending_guides %}
+  <div class="panel mt-4 overflow-x-auto">
+    <table class="w-full text-sm text-left">
+      <thead class="text-ink/60 border-b border-line">
+        <tr><th class="p-4">Guide</th><th class="p-4">City</th><th class="p-4">Languages</th><th class="p-4">Rate</th><th class="p-4">Documents</th><th class="p-4"></th></tr>
+      </thead>
+      <tbody>
+        {% for g in pending_guides %}
+        <tr class="border-b border-line last:border-0 align-top">
+          <td class="p-4"><p class="font-semibold">{{ g.full_name }}</p><p class="text-ink/60">{{ g.experience_years }} yrs</p></td>
+          <td class="p-4">{{ g.city }}</td>
+          <td class="p-4">{{ g.languages }}</td>
+          <td class="p-4">${{ '{:,.0f}'.format(g.price_per_day) }}/day</td>
+          <td class="p-4 space-y-1">
+            <a class="block text-brand-strong underline" href="{{ g.profile_image_url }}" target="_blank" rel="noopener">Photo</a>
+            <a class="block text-brand-strong underline" href="{{ g.certificate_url }}" target="_blank" rel="noopener">Certificate</a>
+          </td>
+          <td class="p-4">
+            <div class="flex gap-2">
+              <form method="post" action="/admin"><input type="hidden" name="action" value="approve_guide"><input type="hidden" name="guide_id" value="{{ g.id }}"><button class="btn-brand !py-1.5 !px-3" type="submit">Approve</button></form>
+              <form method="post" action="/admin" onsubmit="return confirm('Remove this application?')"><input type="hidden" name="action" value="reject_guide"><input type="hidden" name="guide_id" value="{{ g.id }}"><button class="btn-ghost !py-1.5 !px-3" type="submit">Reject</button></form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="mt-4 text-ink/70">No applications waiting for review.</p>
+  {% endif %}
+
+  <h2 id="bookings" class="font-display text-2xl font-semibold mt-12 scroll-mt-24">Bookings</h2>
+  {% if recent %}
+  <div class="panel mt-4 overflow-x-auto">
+    <table class="w-full text-sm text-left">
+      <thead class="text-ink/60 border-b border-line">
+        <tr><th class="p-4">Date</th><th class="p-4">Type</th><th class="p-4">Booked</th><th class="p-4">Customer</th><th class="p-4">Amount</th><th class="p-4">Status</th><th class="p-4"></th></tr>
+      </thead>
+      <tbody>
+        {% for r in recent %}
+        <tr class="border-b border-line last:border-0 align-top">
+          <td class="p-4 whitespace-nowrap">{{ r.date }}</td>
+          <td class="p-4">{{ r.kind|capitalize }}</td>
+          <td class="p-4">{{ r.name }}</td>
+          <td class="p-4"><p>{{ r.customer }}</p><a class="text-brand-strong whitespace-nowrap" href="tel:{{ r.phone }}">{{ r.phone }}</a></td>
+          <td class="p-4 text-brand-strong">${{ '{:,.0f}'.format(r.amount) }}</td>
+          <td class="p-4"><span class="rounded-full px-2.5 py-0.5 text-xs font-semibold {{ badge[r.status] }}">{{ r.status }}</span></td>
+          <td class="p-4">
+            {% if r.status != 'completed' %}
+            <form method="post" action="/admin" class="flex gap-2">
+              <input type="hidden" name="action" value="set_booking_status">
+              <input type="hidden" name="kind" value="{{ r.type }}">
+              <input type="hidden" name="booking_id" value="{{ r.id }}">
+              <select name="status" class="field !py-1 !px-2 !w-auto" aria-label="New status">
+                {% for st in statuses %}<option value="{{ st }}" {{ 'selected' if st == r.status }}>{{ st }}</option>{% endfor %}
+              </select>
+              <button class="btn-brand !py-1 !px-3" type="submit">Save</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <p class="mt-2 text-xs text-ink/60">Completing a guide booking adds a finished tour and 25 points to that guide and can raise their badge.</p>
+  {% else %}
+  <p class="mt-4 text-ink/70">No bookings yet.</p>
+  {% endif %}
+
+  <h2 id="listings" class="font-display text-2xl font-semibold mt-12 scroll-mt-24">Listings</h2>
+  <div class="mt-4 space-y-3">
+    {% for it in items %}
+    <details class="panel">
+      <summary class="cursor-pointer p-4 flex items-center gap-4">
+        <img src="{{ it.image_url }}" alt="" class="h-12 w-16 rounded-lg object-cover bg-sand">
+        <span class="flex-1"><span class="font-semibold">{{ it.title }}</span><span class="block text-sm text-ink/60">{{ it.item_type|capitalize }}, {{ it.location }}</span></span>
+        <span class="text-brand-strong font-semibold">${{ '{:,.0f}'.format(it.price) }}</span>
+      </summary>
+      <div class="p-4 border-t border-line">
+        <form method="post" action="/admin" enctype="multipart/form-data" class="grid gap-4 sm:grid-cols-2">
+          <input type="hidden" name="action" value="edit_item">
+          <input type="hidden" name="item_id" value="{{ it.id }}">
+          {{ item_fields(it) }}
+          <div class="sm:col-span-2"><button class="btn-brand" type="submit">Save changes</button></div>
+        </form>
+        <form method="post" action="/admin" class="mt-3" onsubmit="return confirm('Delete this listing?')">
+          <input type="hidden" name="action" value="delete_item"><input type="hidden" name="item_id" value="{{ it.id }}">
+          <button class="btn-ghost" type="submit">Delete listing</button>
+        </form>
+      </div>
+    </details>
+    {% endfor %}
+  </div>
+
+  <h3 class="font-display text-xl font-semibold mt-10">Add a listing</h3>
+  <form method="post" action="/admin" enctype="multipart/form-data" class="panel p-6 mt-4 grid gap-4 sm:grid-cols-2">
+    <input type="hidden" name="action" value="add_item">
+    {{ item_fields() }}
+    <div class="sm:col-span-2"><button class="btn-brand" type="submit">Add listing</button></div>
+  </form>
+
+  <h2 id="feed" class="font-display text-2xl font-semibold mt-12 scroll-mt-24">Travel feed moderation</h2>
+  {% if posts %}
+  <ul class="mt-4 grid gap-3 sm:grid-cols-2 mb-10">
+    {% for po in posts %}
+    <li class="panel p-3 flex items-center gap-3">
+      <img src="{{ po.image_url }}" alt="" class="h-16 w-16 rounded-lg object-cover bg-sand">
+      <span class="flex-1 min-w-0"><span class="block font-semibold truncate">{{ po.title }}</span><span class="block text-sm text-ink/60 truncate">{{ po.author_name }}, {{ po.location }}, {{ po.like_count }} likes</span></span>
+      <form method="post" action="/admin" onsubmit="return confirm('Remove this post?')">
+        <input type="hidden" name="action" value="delete_post"><input type="hidden" name="post_id" value="{{ po.id }}">
+        <button class="btn-ghost !py-1.5 !px-3" type="submit">Remove</button>
+      </form>
+    </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="mt-4 mb-10 text-ink/70">The feed is empty.</p>
+  {% endif %}
+</section>
+{% endif %}
+{% endblock %}

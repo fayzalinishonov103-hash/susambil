@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% from "_art.html" import item_cover %}
+{% block title %}{{ t('trips_title') }} | Susambil{% endblock %}
+{% block content %}
+{% set badge = {'hotel': 'bg-amber-100 text-amber-900', 'taxi': 'bg-yellow-200 text-yellow-900', 'transport': 'bg-sky-100 text-sky-900', 'experience': 'bg-orange-100 text-orange-900', 'trip': 'bg-emerald-100 text-emerald-900'} %}
+{% set tabs = [('all',t('tab_all')),('hotel',t('tab_hotel')),('taxi',t('tab_taxi')),('transport',t('tab_transport')),('experience',t('tab_experience')),('trip',t('tab_trip'))] %}
+<section class="mx-auto max-w-7xl px-4 sm:px-6 pt-8" aria-label="Listings">
+  <h1 class="font-display text-3xl sm:text-4xl font-extrabold">{{ t('trips_title') }}</h1>
+  <form method="get" action="/trips" class="mt-5 flex flex-col gap-2 sm:flex-row max-w-xl">
+    <input type="hidden" name="tab" value="{{ tab }}">
+    <input name="location" value="{{ location }}" maxlength="80" class="field" placeholder="{{ t('search_ph') }}" aria-label="{{ t('where') }}">
+    <button class="btn-brand shrink-0" type="submit">{{ t('search_btn') }}</button>
+  </form>
+  <div class="mt-4 flex flex-wrap gap-2">
+    {% for c in cities %}
+    <a href="/trips?location={{ c|urlencode }}{% if tab != 'all' %}&tab={{ tab }}{% endif %}"
+       class="rounded-full border px-4 py-1.5 text-sm font-medium {% if location|lower == c|lower %}bg-ink text-white border-ink{% else %}bg-white border-line hover:border-ink{% endif %}">{{ c }}</a>
+    {% endfor %}
+    {% if location %}<a href="/trips?tab={{ tab }}" class="btn-ghost !py-1.5">&times; {{ location }}</a>{% endif %}
+  </div>
+  <div class="mt-6"></div>
+  <div class="flex gap-2 overflow-x-auto no-scrollbar pb-2" role="tablist">
+    {% for key, label in tabs %}
+    <a href="/trips?tab={{ key }}{% if location %}&location={{ location|urlencode }}{% endif %}"
+       role="tab" aria-selected="{{ 'true' if tab == key else 'false' }}"
+       class="shrink-0 rounded-full px-5 py-2 text-sm font-semibold border transition-colors {% if tab == key %}bg-brand text-ink border-brand{% else %}border-line text-ink hover:border-brand hover:text-brand-strong{% endif %}">{{ label }}</a>
+    {% endfor %}
+  </div>
+
+  {% if items %}
+  <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+    {% for item in items %}
+    <a href="/item/{{ item.id }}" class="group panel overflow-hidden flex flex-col hover:border-brand transition-colors">
+      <div class="relative aspect-[4/3] overflow-hidden bg-sand">
+        {{ item_cover(item, 'group-hover:scale-105 transition-transform duration-500') }}
+        <span class="absolute left-3 top-3 rounded-full px-3 py-1 text-xs font-semibold {{ badge.get(item.item_type, 'bg-white text-ink') }}">{{ t('tab_' ~ item.item_type) }}</span>
+      </div>
+      <div class="p-5 flex flex-col flex-1">
+        <p class="text-sm text-ink/60">{{ item.location }}</p>
+        <h2 class="mt-1 font-display text-xl font-semibold">{{ item.title }}</h2>
+        <p class="mt-2 text-sm text-ink/70 line-clamp-2">{{ item.description }}</p>
+        <div class="mt-auto pt-4 flex items-baseline justify-between">
+          <span class="text-xl font-semibold text-brand-strong">{{ money(item.price) }}</span>
+          {% if item.duration %}<span class="text-sm text-ink/60">{{ item.duration }}</span>{% endif %}
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  {% if pages > 1 %}
+  <nav class="mt-8 flex items-center justify-center gap-4" aria-label="Pagination">
+    {% set base = '/?tab=' ~ tab ~ ('&location=' ~ (location|urlencode) if location else '') %}
+    {% if page > 1 %}<a class="btn-ghost" rel="prev" href="{{ base }}&page={{ page - 1 }}">{{ t('prev') }}</a>{% endif %}
+    <span class="text-sm text-ink/70">{{ page }} / {{ pages }}</span>
+    {% if page < pages %}<a class="btn-ghost" rel="next" href="{{ base }}&page={{ page + 1 }}">{{ t('next') }}</a>{% endif %}
+  </nav>
+  {% endif %}
+  {% else %}
+  <div class="mt-6 panel p-10 text-center">
+    <p class="font-display text-xl">{{ t('no_results') }}</p>
+    <p class="mt-2 text-ink/70">Try another city or <a class="text-brand-strong underline" href="/trips">clear the filters</a>.</p>
+  </div>
+  {% endif %}
+</section>
+
+
+{% endblock %}
