@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUSAMBIL — Loyiha Taqdimoti (Pitch Deck)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-serif-display {
+      font-family: 'Playfair Display', serif;
+    }
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.35s ease-in-out, transform 0.35s ease-in-out;
+      transform: scale(0.98);
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+      transform: scale(1);
+    }
+    @media print {
+      body { background: white !important; color: black !important; }
+      .no-print { display: none !important; }
+      .slide {
+        display: flex !important;
+        opacity: 1 !important;
+        page-break-after: always;
+        height: 100vh;
+        transform: none !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#0b1c16] text-white min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
+
+  <!-- TOP HEADER / NAV BAR -->
+  <header class="w-full px-6 py-4 flex items-center justify-between border-b border-white/10 z-20 backdrop-blur-md bg-[#0b1c16]/80 no-print">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[#C8A66A] to-[#B38F52] flex items-center justify-center font-bold text-[#124C3A] text-xl shadow-lg">
+        S
+      </div>
+      <div>
+        <h1 class="text-base font-bold tracking-wider uppercase text-amber-200">SUSAMBIL</h1>
+        <p class="text-[11px] text-emerald-300/80">O‘zbekiston Milliy Turizm Ekotizimi</p>
+      </div>
+    </div>
+
+    <!-- Center controls -->
+    <div class="flex items-center gap-2">
+      <button onclick="prevSlide()" class="p-2.5 rounded-lg bg-white/5 hover:bg-white/15 text-white transition border border-white/10" title="Oldingi slayd (Chapga o'q)">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <span id="slideCounter" class="text-xs font-semibold px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-300">
+        1 / 12
+      </span>
+      <button onclick="nextSlide()" class="p-2.5 rounded-lg bg-white/5 hover:bg-white/15 text-white transition border border-white/10" title="Keyingi slayd (O'ngga o'q yoki Space)">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <!-- Right utility controls -->
+    <div class="flex items-center gap-3">
+      <a href="/SUSAMBIL_Taqdimot_Pitch_Deck.pptx" download class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 border border-emerald-400/30 transition">
+        <span>📥</span> PPTX Yuklab Olish
+      </a>
+      <button onclick="toggleNotes()" id="notesBtn" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 border border-amber-400/30 transition">
+        <span>🎤</span> Spiker nutqi
+      </button>
+      <button onclick="window.print()" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-white/10 hover:bg-white/20 text-white transition">
+        🖨️ PDF / Chop etish
+      </button>
+      <a href="/" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#C8A66A] hover:bg-[#b59458] text-[#124C3A] transition">
+        Saytga qaytish ↗
+      </a>
+    </div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="w-full h-1 bg-white/10 no-print">
+    <div id="progressBar" class="h-full bg-gradient-to-r from-[#C8A66A] to-emerald-400 transition-all duration-300" style="width: 8.33%;"></div>
+  </div>
+
+  <!-- MAIN SLIDES CONTAINER -->
+  <main class="flex-1 flex flex-col items-center justify-center p-6 md:p-12 max-w-7xl mx-auto w-full relative">
+
+    <!-- ==================== SLIDE 1: MUQOVA ==================== -->
+    <div class="slide active flex-col items-center justify-center text-center space-y-8 w-full py-8" data-note="Assalomu alaykum hurmatli hakamlar hay’ati va qatnashchilar! Bugun sizlarga O‘zbekiston turizm sohasini raqamlashtirishda yangi bosqichni ochib beruvchi innovatsion loyihamiz — SUSAMBIL platformasini taqdim etishdan mamnunmiz. Shiorimiz: 'Discover Uzbekistan. Your Journey, One Platform.' Ya'ni, O'zbekiston bo'ylab sayohatning barcha bosqichlarini bitta platformada birlashtirdik.">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold tracking-wide uppercase">
+        ✨ Startup & Turizm Innovatsiyasi 2026
+      </div>
+      <div class="space-y-4 max-w-4xl">
+        <h2 class="text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tight font-serif-display text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-amber-100 to-emerald-200">
+          SUSAMBIL
+        </h2>
+        <p class="text-xl md:text-2xl text-emerald-100 font-light max-w-2xl mx-auto">
+          O‘zbekistonning Barcha Turizm Xizmatlarini Birlashtiruvchi Yagona Aqlli Ekotizim
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl pt-6">
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+          <div class="text-2xl font-bold text-amber-300">15+</div>
+          <div class="text-xs text-slate-300 mt-1">Xalqaro Tillar</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+          <div class="text-2xl font-bold text-emerald-300">60 soniya</div>
+          <div class="text-xs text-slate-300 mt-1">AI Sayohat Plani</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+          <div class="text-2xl font-bold text-amber-300">QR E-Voucher</div>
+          <div class="text-xs text-slate-300 mt-1">Poyezd & Aviakassa</div>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+          <div class="text-2xl font-bold text-emerald-300">100%</div>
+          <div class="text-xs text-slate-300 mt-1">Tasdiqlangan Gidlar</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 2: MUAMMO ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Har yili millionlab xorijiy va mahalliy sayohatchilar O‘zbekistonga tashrif buyuradi. Ammo bugungi kunda sayohatni rejalashtirish o‘ta tarqoq: poyezd chiptasi alohida saytdan, mehmonxona boshqa joydan, gid esa Telegram orqali qidiriladi. Ko‘plab xorijliklar til to‘sig‘iga uchraydi, ishonchsiz norasmiy vositachilar sababli ortiqcha xarajat qiladi. Bu esa mamlakatimiz turizm salohiyatini to‘liq ochishga to‘sqinlik qiladi.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-semibold">
+        ⚠️ Bozor Muammolari
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        Bugun O‘zbekistonga kelayotgan sayohatchi qanday to‘siqlarga duch kelmoqda?
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+        <div class="p-6 rounded-2xl bg-rose-950/20 border border-rose-500/20 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-lg">1</div>
+          <h3 class="text-lg font-bold text-rose-200">Haddan tashqari tarqoqlik</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Chipta olish, mehmonxona band qilish, transport va gid topish 4-5 xil platformalarda bo‘linib ketgan. Yagona qulay navbat va hisob-kitob mavjud emas.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-rose-950/20 border border-rose-500/20 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-lg">2</div>
+          <h3 class="text-lg font-bold text-rose-200">Til va Axborot yetishmovchiligi</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Ko‘plab davlat xizmatlari faqat 2-3 tilda mavjud. Xitoy, Yaponiya, Germaniya, Fransiya va arab mamlakatlaridan kelgan sayyohlar uchun sifatli ma’lumot kam.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-rose-950/20 border border-rose-500/20 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-lg">3</div>
+          <h3 class="text-lg font-bold text-rose-200">Ishonchsiz vositachilar & noaniq narxlar</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Litsenziyasiz gidlar, kutilmagan taksi narxlari va qora bozordagi poyezd chiptalari sayyohlarda salbiy taassurot qoldiradi.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-rose-950/20 border border-rose-500/20 space-y-3">
+          <div class="w-10 h-10 rounded-xl bg-rose-500/20 text-rose-300 flex items-center justify-center font-bold text-lg">4</div>
+          <h3 class="text-lg font-bold text-rose-200">Raqamli rejalashtirish vositalari yo‘qligi</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Sayohatchi o‘z byudjeti, kunlari va qiziqishlariga mos marshrutni tuzish uchun soatlab vaqt sarflaydi.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 3: YECHIM ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Aynan shu muammolarni bartaraf etish uchun biz SUSAMBIL platformasini yaratdik. SUSAMBIL — sayohatchiga sayohat g‘oyasidan to xotiralar qolguniga qadar to‘liq hamroh bo‘luvchi super-platformadir. Mehmonxona, poyezd, aviaparvoz, litsenziyali gid, byudjet hisoblagich va AI marshrut tuzuvchi bitta tizimda birlashtirilgan.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+        💡 Bizning Yechim
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        SUSAMBIL: Butun O‘zbekiston Bir Darchada
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div class="p-6 rounded-2xl bg-white/5 border border-emerald-500/30 space-y-3">
+          <div class="text-3xl">🎯</div>
+          <h3 class="text-lg font-bold text-amber-200">Barchasi bitta ekranda</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Afrosiyob poyezd chiptalari, ichki aviareyslar, 500+ milliy mehmonxonalar va eng yaxshi gidlar bir ekotizimda.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-emerald-500/30 space-y-3">
+          <div class="text-3xl">🤖</div>
+          <h3 class="text-lg font-bold text-amber-200">Aqlli AI Yordamchi</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Byudjet, sayohat kunlari va qiziqishga qarab 1 daqiqada tayyor reja, xarajatlar tahlili va interaktiv marshrut tuzib beradi.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-emerald-500/30 space-y-3">
+          <div class="text-3xl">🌐</div>
+          <h3 class="text-lg font-bold text-amber-200">15 ta tilda erkin muloqot</h3>
+          <p class="text-sm text-slate-300 leading-relaxed">
+            Sayohatchi o‘z ona tilida ma’lumot oladi, xizmatlarni bron qiladi va kafolatlangan QR elektron chipta oladi.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 4: SMART AI PLANNER ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Loyiha durdonasi — Smart AI Planner. Sayyoh shaharlarni, kunlar sonini va o'z byudjetini tanlaydi. Sun'iy intellekt har bir kun uchun aniq soatlarga bo'lingan dastur tuzadi: qaysi vaqtda Registonga borish kerak, qaysi oshxonada tushlik qilish qulay va kuniga qancha pul sarflanadi. Shuningdek, PDF shaklida yuklab olish va chop etish imkoniyati ham mavjud.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+        🧠 Asosiy Innovatsiya
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        Smart AI Sayohat Plani: 60 Soniyada To‘liq Marshrut
+      </h2>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center pt-2">
+        <div class="space-y-4">
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-bold mt-1">✓</span>
+            <div>
+              <h4 class="font-bold text-white text-base">Shaxsiylashtirilgan takliflar</h4>
+              <p class="text-sm text-slate-300">Tarixiy, gastro-turizm, tabiat, oilaviy yoki ekstremal sayohat yo‘nalishlari.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-bold mt-1">✓</span>
+            <div>
+              <h4 class="font-bold text-white text-base">Kunlik soatbay reja</h4>
+              <p class="text-sm text-slate-300">Har bir diqqatga sazovor joy uchun tavsiya etilgan vaqt va logistika optimizatsiyasi.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-bold mt-1">✓</span>
+            <div>
+              <h4 class="font-bold text-white text-base">Bir tugma bilan PDF / Chop etish</h4>
+              <p class="text-sm text-slate-300">Internetsiz holatda ham sayyoh cho'ntagida to'liq marshrut varaqasi bo'ladi.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-white/10 to-white/5 border border-white/20 p-6 rounded-3xl backdrop-blur-md shadow-2xl space-y-4">
+          <div class="flex items-center justify-between pb-3 border-b border-white/10">
+            <span class="text-xs font-bold text-amber-300 uppercase tracking-wider">AI Rejalashtiruvchi Simulyatsiyasi</span>
+            <span class="text-xs text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">Tayyor</span>
+          </div>
+          <div class="space-y-2 text-xs">
+            <div class="p-2.5 rounded-xl bg-white/5 flex justify-between">
+              <span class="text-slate-300">Marshrut:</span>
+              <span class="font-bold text-white">Toshkent ➔ Samarqand ➔ Buxoro</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-white/5 flex justify-between">
+              <span class="text-slate-300">Muddat va Byudjet:</span>
+              <span class="font-bold text-white">5 kun • $350 (Qulay)</span>
+            </div>
+            <div class="p-2.5 rounded-xl bg-white/5 flex justify-between">
+              <span class="text-slate-300">Tavsiya etilgan poyezd:</span>
+              <span class="font-bold text-amber-300">Afrosiyob #762 (08:00)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 5: E-TICKET & TRANSPORT ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Eng og'riqli nuqtalardan biri — chiptalar. Platformamizda elektron chipta tizimi yaratildi: poyezd yoki samolyot reysini tanlangach, Click, Payme yoki Visa orqali to'lov amalga oshiriladi va xalqaro PNR raqamiga hamda dinamik QR-kodga ega rasmiy E-Voucher hosil bo'ladi. Chiptani darhol PDF qilib saqlash yoki printerdan chiqarish mumkin.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+        🎫 Transport & Chiptalar
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        Dinamik QR-kodli Elektron Chiptalar Tizimi
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+          <div class="text-3xl">🚄</div>
+          <h3 class="text-lg font-bold text-emerald-200">Afrosiyob & Sharq Poyezdlari</h3>
+          <p class="text-sm text-slate-300">
+            Toshkent-Samarqand-Buxoro yo‘nalishidagi tezyurar poyezdlar jadvali, vagon toifalari va o‘rindiq tanlash.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+          <div class="text-3xl">💳</div>
+          <h3 class="text-lg font-bold text-emerald-200">Xavfsiz To‘lov Integratsiyasi</h3>
+          <p class="text-sm text-slate-300">
+            Milliy Click va Payme, shuningdek xalqaro Visa va Mastercard orqali to‘g‘ridan-to‘g‘ri to‘lov qulayligi.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+          <div class="text-3xl">📱</div>
+          <h3 class="text-lg font-bold text-emerald-200">Kafolatlangan QR E-Voucher</h3>
+          <p class="text-sm text-slate-300">
+            Turist smartfonida saqlanuvchi, vokzal va nazoratchilar skaneri bilan 100% mos keluvchi elektron vaucher.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 6: INTERACTIVE MAP & HIDDEN UZBEKISTAN ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Faqat Registon va Ichan-Qal'a bilan cheklanib qolmadik. SUSAMBIL interaktiv Ipak Yo'li xaritasiga ega bo'lib, unda barcha viloyatlar va 'Hidden Uzbekistan' ya'ni kam o'rganilgan, ammo nihoyatda go'zal Boysun, Zomin, Oydarko'l, Aral dengizi kabi ekoturizm va etnoturizm maskanlari jamlangan.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+        🗺️ Noyob Kontent
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        Interaktiv Ipak Yo‘li Xaritasi & Yashirin Go‘zalliklar
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+          <h3 class="text-xl font-bold text-amber-200">Silk Road Interactive Map</h3>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li class="flex items-center gap-2">🔹 Toshkent, Samarqand, Buxoro, Xiva va Shahrisabz</li>
+            <li class="flex items-center gap-2">🔹 Bir klik bilan har bir shaharning eng mashhur 5 ta obidasi</li>
+            <li class="flex items-center gap-2">🔹 Ob-havo, transport aloqasi va o‘rtacha mehmonxona narxlari</li>
+          </ul>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-4">
+          <h3 class="text-xl font-bold text-emerald-200">"Hidden Uzbekistan" Ekoturizm</h3>
+          <ul class="space-y-2 text-sm text-slate-300">
+            <li class="flex items-center gap-2">🔸 Zomin tog‘lari va archazorlari</li>
+            <li class="flex items-center gap-2">🔸 Boysun etno-folklor hududi</li>
+            <li class="flex items-center gap-2">🔸 Oydarko‘l o‘tovli lagerlari va Orol dengizi kema qabristoni</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 7: 15 TA TIL ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Eng katta yutuqlarimizdan biri — platformaning to'liq 15 ta tilda ishlashidir. Sayohatchi nafaqat o'zbek, rus yoki ingliz, balki yapon, xitoy, arab, ispan, koreys, nemis va boshqa 15 ta xalqaro tilda platformadan bemalol foydalana oladi. Bu O'zbekiston turizmini dunyoning istalgan nuqtasidan turib kirib kelishiga eshik ochadi.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+        🌍 Global Qamrov
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        15 ta Xalqaro Tilda To‘liq Lokalizatsiya
+      </h2>
+
+      <div class="grid grid-cols-3 md:grid-cols-5 gap-3 pt-4 text-center">
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇺🇿 O‘zbekcha</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇷🇺 Русский</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇬🇧 English</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇨🇳 中文</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇯🇵 日本語</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇩🇪 Deutsch</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇫🇷 Français</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇪🇸 Español</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇦🇪 العربية</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇰🇷 한국어</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇹🇷 Türkçe</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇮🇹 Italiano</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇵🇹 Português</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇮🇳 हिन्दी</div>
+        <div class="p-3.5 rounded-xl bg-white/5 border border-white/10 font-bold text-white">🇮🇷 فارسی</div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 8: BIZNES MODEL ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="SUSAMBIL shunchaki axborot sayti emas, balki yuqori daromad keltiruvchi barqaror biznes modelga ega. Biz mehmonxonalarni band qilishdan 10-15%, poyezd va samolyot chiptalaridan 3-5%, gidlar xizmatidan 12% komissiya olamiz. Shuningdek, turistik kompaniyalar uchun B2B tahlil paneli va xususiy brendlar uchun reklama maydonchasi mavjud.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+        💰 Biznes Model
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        Monetizatsiya va Daromad Manbalari
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 pt-4">
+        <div class="p-6 rounded-2xl bg-white/5 border border-emerald-500/30 text-center space-y-2">
+          <div class="text-3xl font-extrabold text-amber-300">10-15%</div>
+          <h4 class="font-bold text-white text-base">Mehmonxonalar</h4>
+          <p class="text-xs text-slate-300">Har bir muvaffaqiyatli band qilishdan olinadigan komissiya</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-emerald-500/30 text-center space-y-2">
+          <div class="text-3xl font-extrabold text-emerald-300">3-5%</div>
+          <h4 class="font-bold text-white text-base">Chiptalar</h4>
+          <p class="text-xs text-slate-300">Poyezd va aviaqatnov chiptalari servis to‘lovi</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-emerald-500/30 text-center space-y-2">
+          <div class="text-3xl font-extrabold text-amber-300">12%</div>
+          <h4 class="font-bold text-white text-base">Gidlar & Turlar</h4>
+          <p class="text-xs text-slate-300">Litsenziyali gidlar va maxsus turlar buyurtmasidan</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-emerald-500/30 text-center space-y-2">
+          <div class="text-3xl font-extrabold text-emerald-300">SaaS / B2B</div>
+          <h4 class="font-bold text-white text-base">Hamkorlar</h4>
+          <p class="text-xs text-slate-300">Mehmonxona va turoperatorlar uchun analitika obunasi</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 9: BOZOR HAJMI ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Bozor salohiyati nihoyatda ulkan. O'zbekiston hukumati 2026-yilga qadar yillik xorijiy sayyohlar oqimini 10 million nafarga yetkazishni maqsad qilgan. Ichki turizm hajmi esa yiliga 15 million sayohatni tashkil etadi. SUSAMBIL ushbu oqimning eng qulay va ishonchli raqamli darvozasi bo'lishga to'liq tayyor.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+        📈 Bozor Tahlili
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        Bozor Hajmi va O‘sish Dinamikasi
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+          <span class="text-xs text-slate-400 uppercase font-semibold">TAM (Umumiy Bozor)</span>
+          <div class="text-3xl font-extrabold text-emerald-300">$2.5+ Milyard</div>
+          <p class="text-xs text-slate-300">Markaziy Osiyo bo‘yicha yillik sayohat va turizm xizmatlari aylanmasi</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+          <span class="text-xs text-slate-400 uppercase font-semibold">SAM (O‘zbekiston Bozori)</span>
+          <div class="text-3xl font-extrabold text-amber-300">10 Million+</div>
+          <p class="text-xs text-slate-300">2026-yilda O‘zbekistonga kutilayotgan yillik xorijiy turistlar soni</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-2">
+          <span class="text-xs text-slate-400 uppercase font-semibold">SOM (Bizning Maqsad)</span>
+          <div class="text-3xl font-extrabold text-emerald-300">300,000+</div>
+          <p class="text-xs text-slate-300">Dastlabki 12 oy davomida xizmat ko‘rsatiladigan faol sayohatchilar</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 10: TEXNOLOGIYA ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Loyiha zamonaviy va xavfsiz texnologiyalar ustiga qurilgan. Frontend qismida React 18, Vite va TypeScript ishlatilgan bo'lib, sahifalar 0.5 soniyadan tez yuklanadi. Xavfsizlik bo'yicha maxfiy administrator tizimi, ikki bosqichli tasdiqlash va PWA oflayn ishlash rejimi joriy etilgan.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold">
+        ⚡ Texnologik Stack
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        Yuqori Tezlik, Ishonchlilik va Xavfsizlik
+      </h2>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4">
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <div class="text-emerald-400 font-bold text-lg mb-1">React 18 & TS</div>
+          <p class="text-xs text-slate-300">Ultra-tezkor, xatosiz modulli frontend arxitektura</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <div class="text-amber-400 font-bold text-lg mb-1">Tailwind CSS</div>
+          <p class="text-xs text-slate-300">Zamonaviy Emerald & Gold brending, 100% moslashuvchan</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <div class="text-emerald-400 font-bold text-lg mb-1">QR Engine</div>
+          <p class="text-xs text-slate-300">Avtomatik dinamik e-vaucher va PNR shifrlash</p>
+        </div>
+        <div class="p-5 rounded-2xl bg-white/5 border border-white/10">
+          <div class="text-amber-400 font-bold text-lg mb-1">Offline-First</div>
+          <p class="text-xs text-slate-300">Internet uzilganda ham saqlangan chipta va rejalar ochiq</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 11: DEMO REJA ==================== -->
+    <div class="slide flex-col space-y-6 w-full max-w-5xl" data-note="Endi esa platformaning real ishlashini amalda ko'rsatamiz. Birgalikda Smart AI Planner orqali Samarqand va Buxoro uchun 3 kunlik reja tuzamiz, Afrosiyob poyezdiga QR-kodli elektron chipta olamiz va 15 ta til o'rtasida bir zumda o'tishni sinab ko'ramiz.">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold">
+        📱 Jonli Demo
+      </div>
+      <h2 class="text-3xl md:text-5xl font-bold font-serif-display text-white">
+        Platforma Amalda Qanday Ishlaydi?
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+          <span class="text-amber-300 font-bold text-xs uppercase">1-Qadam</span>
+          <h3 class="text-lg font-bold text-white">Smart AI Marshrut</h3>
+          <p class="text-sm text-slate-300">Shaharlar, kunlar va byudjet tanlanib, 1 daqiqada tayyor ekskursiya rejasi olinadi.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+          <span class="text-emerald-300 font-bold text-xs uppercase">2-Qadam</span>
+          <h3 class="text-lg font-bold text-white">QR Chipta Xaridi</h3>
+          <p class="text-sm text-slate-300">Afrosiyob poyezdiga chipta tanlanib, simulyatsiya orqali QR-kodli vaucher chiqariladi.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-white/5 border border-white/10 space-y-3">
+          <span class="text-amber-300 font-bold text-xs uppercase">3-Qadam</span>
+          <h3 class="text-lg font-bold text-white">Ko‘p Tillilik va Gidlar</h3>
+          <p class="text-sm text-slate-300">Tilni ingliz yoki yaponchaga o‘tkazib, Samarqanddagi sertifikatlangan gid tanlanadi.</p>
+        </div>
+      </div>
+
+      <div class="text-center pt-4">
+        <a href="/" target="_blank" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[#C8A66A] to-[#B38F52] text-[#124C3A] font-bold shadow-lg hover:brightness-110 transition">
+          🚀 Jonli Saytni Ochish (susambil.uz)
+        </a>
+      </div>
+    </div>
+
+    <!-- ==================== SLIDE 12: XULOSA ==================== -->
+    <div class="slide flex-col items-center justify-center text-center space-y-8 w-full py-8" data-note="Xulosa qilib aytganda, SUSAMBIL — O'zbekistonning boy madaniy merosini butun dunyoga eng qulay, xavfsiz va zamonaviy tarzda yetkazib beruvchi ko'prikdir. Biz O'zbekistonni jahon turizm xaritasida 1-raqamli manzilga aylantirishga hissa qo'shamiz. E'tiboringiz uchun katta rahmat, savollaringiz bo'lsa mamnuniyat bilan javob beramiz!">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold tracking-wide uppercase">
+        🏁 Xulosa & Hamkorlik
+      </div>
+
+      <div class="space-y-4 max-w-3xl">
+        <h2 class="text-4xl md:text-6xl font-bold font-serif-display text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-white to-emerald-200">
+          Kelajak Sayohati Bugun Boshlanadi
+        </h2>
+        <p class="text-lg md:text-xl text-emerald-100/90 font-light max-w-xl mx-auto">
+          SUSAMBIL — O‘zbekistonni butun dunyoga kashf ettiruvchi yagona milliy raqamli brend.
+        </p>
+      </div>
+
+      <div class="p-6 rounded-3xl bg-white/5 border border-white/10 backdrop-blur-md max-w-md w-full space-y-3 text-sm">
+        <div class="text-amber-300 font-bold text-base">Biz bilan bog‘lanish:</div>
+        <div class="text-slate-300">📧 info@susambil.uz</div>
+        <div class="text-slate-300">📞 +998 (71) 200-00-00</div>
+        <div class="text-slate-300">🌐 www.susambil.uz</div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- SPEAKER NOTES DRAWER (FLOATING / TOGGLEABLE) -->
+  <aside id="notesDrawer" class="hidden fixed bottom-14 left-6 right-6 md:left-24 md:right-24 bg-slate-900/95 border border-amber-400/40 rounded-2xl p-5 shadow-2xl backdrop-blur-xl z-30 transition-all">
+    <div class="flex items-center justify-between pb-2 mb-2 border-b border-white/10">
+      <div class="flex items-center gap-2">
+        <span class="text-lg">🎙️</span>
+        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">Ushbu slayd uchun spiker nutqi (Taqdimotchi gapi):</span>
+      </div>
+      <button onclick="toggleNotes()" class="text-slate-400 hover:text-white text-xs px-2 py-1 rounded bg-white/5">Yopish ✕</button>
+    </div>
+    <p id="notesContent" class="text-sm md:text-base text-slate-200 leading-relaxed italic"></p>
+  </aside>
+
+  <!-- FOOTER CONTROLS -->
+  <footer class="w-full px-6 py-3 border-t border-white/10 text-xs text-slate-400 flex items-center justify-between z-20 bg-[#0b1c16]/90 no-print">
+    <div>
+      Navigatsiya: <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">←</kbd> Oldingi • <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">→</kbd> yoki <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">Space</kbd> Keyingi • <kbd class="px-1.5 py-0.5 rounded bg-white/10 text-white font-mono">F</kbd> Ekran bo‘ylab
+    </div>
+    <div class="text-amber-200/80 font-semibold">
+      SUSAMBIL © 2026 • Barcha huquqlar himoyalangan
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const counter = document.getElementById('slideCounter');
+    const progressBar = document.getElementById('progressBar');
+    const notesDrawer = document.getElementById('notesDrawer');
+    const notesContent = document.getElementById('notesContent');
+    let showNotes = false;
+
+    function updateSlide() {
+      slides.forEach((s, idx) => {
+        s.classList.remove('active');
+        if (idx === currentSlide) s.classList.add('active');
+      });
+      counter.innerText = `${currentSlide + 1} / ${totalSlides}`;
+      progressBar.style.width = `${((currentSlide + 1) / totalSlides) * 100}%`;
+      
+      const note = slides[currentSlide].getAttribute('data-note') || '';
+      notesContent.innerText = `"${note}"`;
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides - 1) {
+        currentSlide++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSlide();
+      }
+    }
+
+    function toggleNotes() {
+      showNotes = !showNotes;
+      if (showNotes) {
+        notesDrawer.classList.remove('hidden');
+      } else {
+        notesDrawer.classList.add('hidden');
+      }
+    }
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+          document.exitFullscreen().catch(() => {});
+        }
+      } else if (e.key === 'n' || e.key === 'N') {
+        toggleNotes();
+      }
+    });
+
+    // Initialize first slide note
+    updateSlide();
+  </script>
+</body>
+</html>
